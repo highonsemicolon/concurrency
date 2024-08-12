@@ -12,6 +12,7 @@ var INT_MAX = 100_000_000
 var total_prime_numbers int32 = 1
 var cur int32 = 2
 var partitions = 10
+var mu sync.Mutex
 
 func checkIfPrime(n int) {
 	if n&1 == 0 {
@@ -24,7 +25,9 @@ func checkIfPrime(n int) {
 		}
 	}
 
-	atomic.AddInt32(&total_prime_numbers, 1)
+	mu.Lock()
+	total_prime_numbers++
+	mu.Unlock()
 }
 
 func singleThreaded() {
